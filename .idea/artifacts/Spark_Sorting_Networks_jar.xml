@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Spark Sorting Networks:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Spark_Sorting_Networks_jar</output-path>
+    <root id="archive" name="Spark Sorting Networks.jar">
+      <element id="module-output" name="Spark Sorting Networks" />
+    </root>
+  </artifact>
+</component>

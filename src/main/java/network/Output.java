@@ -18,19 +18,19 @@ public class Output implements Serializable {
         values = new BitSet(4);
     }
 
-    Output(int value) {
+    public Output(int value) {
         values = new BitSet(1);
         this.value = value;
         setValues(value);
     }
 
-    Output(Output output) {
+    public Output(Output output) {
         this.values = (BitSet) output.getValues().clone();
         this.value = output.getValue();
     }
 
 
-    BitSet getValues() {
+    public BitSet getValues() {
         return values;
     }
 
@@ -47,6 +47,7 @@ public class Output implements Serializable {
         flip(i);
         flip(j);
     }
+
 
     public int hashCode() {
         int hash = 3;

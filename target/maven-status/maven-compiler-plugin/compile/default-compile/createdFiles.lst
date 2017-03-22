@@ -1,4 +1,2 @@
-main\SparkConfSetter.class
-main\SequentiallyGenerator.class
-main\SnFilter.class
-main\Main.class
+main\NetworkComparator.class
+main\PruningMap.class

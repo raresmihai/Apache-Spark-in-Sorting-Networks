@@ -1,6 +1,8 @@
 package network;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 public class Comparator implements Serializable{
     private int i,j;
@@ -35,5 +37,19 @@ public class Comparator implements Serializable{
         StringBuilder sb = new StringBuilder();
         sb.append("(").append(i).append(",").append(j).append(")");
         return String.valueOf(sb);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * i + j;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Comparator)) {
+            return false;
+        }
+        Comparator other = (Comparator) obj;
+        return i == other.getI() && j == other.getJ();
     }
 }

@@ -16,9 +16,9 @@ class SparkConfSetter {
         conf.set("spark.driver.host","192.168.0.102");
         //conf.set("spark.shuffle.service.enabled", "false");
         //conf.set("spark.dynamicAllocation.enabled", "false");
-        //conf.set("spark.executor.memory","1g");
+        //conf.set("spark.executor.memory","450m");
         //conf.set("spark.driver.memory","1g");
-        //conf.set("spark.default.parallelism","8");
+        conf.set("spark.default.parallelism","4");
         //conf.set("spark.executor.cores","1");
         //conf.set("spark.deploy.defaultCores","1");
         //conf.set("spark.cores.max","1");

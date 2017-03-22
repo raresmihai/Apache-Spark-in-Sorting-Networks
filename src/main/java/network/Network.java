@@ -17,8 +17,10 @@ public class Network implements Serializable {
         this.outputSet = new HashSet<>();
     }
 
-    public Network(List<Comparator> comparators) {
-        this.comparators = comparators;
+    public Network(Comparator comparator) {
+        this.comparators = new ArrayList<>();
+        addComparator(comparator);
+        this.outputSet = OutputUtil.generate(comparator);
     }
 
     public Network(Network network, Comparator c) {
@@ -86,5 +88,34 @@ public class Network implements Serializable {
             sb.append(String.valueOf(output)).append(" ");
         }
         return String.valueOf(sb);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Network)) {
+            return false;
+        }
+        Network other = (Network) obj;
+        List<Comparator> otherNetworkComparators = other.getComparators();
+        if(comparators.size() != otherNetworkComparators.size()) {
+            return false;
+        }
+        for(int i=0;i<comparators.size();i++) {
+            if(!comparators.get(i).equals(otherNetworkComparators.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+        Iterator i = comparators.iterator();
+        while (i.hasNext()) {
+            Object obj = i.next();
+            hashCode = 31*hashCode + (obj==null ? 0 : obj.hashCode());
+        }
+        return hashCode;
     }
 }

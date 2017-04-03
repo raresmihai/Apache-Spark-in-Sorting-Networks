@@ -1,6 +1,7 @@
-package main;
+package spark_functions;
 
 import network.Network;
+import network.NetworkProperties;
 import org.apache.spark.api.java.function.Function;
 
 import java.io.Serializable;

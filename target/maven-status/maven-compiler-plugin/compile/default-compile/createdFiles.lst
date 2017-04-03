@@ -1,2 +1,14 @@
-main\NetworkComparator.class
-main\PruningMap.class
+solver\Solver.class
+solver\CarthesianAggregatorSolver.class
+util\PermutationGenerator.class
+spark_functions\PruningFilter.class
+spark_functions\SnFilter.class
+spark_functions\SameKeyPruning.class
+spark_functions\MapToKeyNetworkPair.class
+spark_functions\FlatMapGenerator.class
+spark_functions\PruningMap.class
+util\Subsumption.class
+spark_functions\DifferentKeyPruning.class
+util\SequentiallyGenerator.class
+solver\ListReducerSolver.class
+network\NetworkProperties.class

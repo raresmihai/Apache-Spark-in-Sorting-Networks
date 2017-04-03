@@ -1,7 +1,5 @@
 package network;
 
-import main.NetworkProperties;
-
 import java.io.Serializable;
 import java.util.BitSet;
 import java.util.Objects;

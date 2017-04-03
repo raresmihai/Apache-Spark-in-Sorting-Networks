@@ -1,7 +1,8 @@
-package main;
+package spark_functions;
 
 import network.Comparator;
 import network.Network;
+import network.NetworkProperties;
 import network.OutputUtil;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -14,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class MyFlatMap implements FlatMapFunction<Network,Network>, Serializable {
+public class FlatMapGenerator implements FlatMapFunction<Network,Network>, Serializable {
     @Override
     public Iterator<Network> call(Network network) throws Exception {
         List<Comparator> comparators = getAllComparators(NetworkProperties.NUMBER_OF_WIRES);

@@ -1,4 +1,4 @@
-package main;
+package spark_functions;
 
 import network.Network;
 import network.Output;

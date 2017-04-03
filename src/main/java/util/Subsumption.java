@@ -1,9 +1,8 @@
-package main;
+package util;
 
 import network.Network;
+import network.NetworkProperties;
 import network.Output;
-import org.apache.spark.api.java.function.PairFunction;
-import scala.Tuple2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,28 +11,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Rares on 22.03.2017.
- *
+ * Created by Rares on 31.03.2017.
  */
-public class PruningMap implements PairFunction<Tuple2<Network,Network>, Network,Boolean>,Serializable {
-    private List<List<Integer>> permutations = new ArrayList<>();
-
-    /*
-    <Network1,Network2> remains iff Network2 <= Network1 is false (Network1 is not subsumed by Network2)
-    Network1 is the key and will be kept iff Network2 <= Network1 is false (Network1 is not subsumed by Network2)
-    The boolean flag in the tuple says if Network1 will be kept or no
+public class Subsumption implements Serializable {
+    /**
+     *
+     * @param network1 the network that is checked if it subsumes network2
+     * @param network2 the network that is checked if it subsumed by network1
+     * @return true if network1 subsumes network2, false otherwise
      */
-    @Override
-    public Tuple2<Network, Boolean> call(Tuple2<Network, Network> networkPair) throws Exception {
-        Network network1 = networkPair._1();
-        Network network2 = networkPair._2();
-        if(network1.equals(network2)) {
-            return new Tuple2<>(network1,true);
-        }
-        return new Tuple2<>(network1,!subsumes(network2,network1));
-    }
-
-    private boolean subsumes(Network network1,Network network2) {
+    public boolean subsumes(Network network1, Network network2) {
         Set<Output> outputSet1 = network1.getOutputSet();
         Set<Output> outputSet2 = network2.getOutputSet();
 
@@ -44,7 +31,7 @@ public class PruningMap implements PairFunction<Tuple2<Network,Network>, Network
         //check Lema4
         int os1NumberOfOnesCluster[] = getNumberOfOnesPerCluster(outputSet1);
         int os2NumberOfOnesCluster[] = getNumberOfOnesPerCluster(outputSet2);
-        for(int i=0;i<NetworkProperties.NUMBER_OF_WIRES+1;i++) {
+        for(int i = 0; i< NetworkProperties.NUMBER_OF_WIRES+1; i++) {
             if(os1NumberOfOnesCluster[i] > os2NumberOfOnesCluster[i]) {
                 return false;
             }
@@ -67,11 +54,8 @@ public class PruningMap implements PairFunction<Tuple2<Network,Network>, Network
     }
 
     private boolean permutationExists(Set<Output> outputSet1, Set<Output> outputSet2) {
-        List<Integer> initialPermutation = new ArrayList<>();
-        for(int i=0;i<NetworkProperties.NUMBER_OF_WIRES;i++) {
-            initialPermutation.add(i);
-        }
-        computeAllPermutations(initialPermutation,0);
+        PermutationGenerator permutationGenerator = new PermutationGenerator();
+        List<List<Integer>> permutations = permutationGenerator.getAllPermutations();
         for(List<Integer> permutation : permutations) {
             Set<Output> permutedOutputSet = applyPermutation(outputSet1,permutation);
             if(subset(permutedOutputSet,outputSet2)) {
@@ -79,17 +63,6 @@ public class PruningMap implements PairFunction<Tuple2<Network,Network>, Network
             }
         }
         return false;
-    }
-
-    private void computeAllPermutations(java.util.List<Integer> arr, int k){
-        for(int i = k; i < arr.size(); i++){
-            java.util.Collections.swap(arr, i, k);
-            computeAllPermutations(arr, k+1);
-            java.util.Collections.swap(arr, k, i);
-        }
-        if (k == arr.size() -1){
-            permutations.add(new ArrayList<>(arr));
-        }
     }
 
     private Set<Output> applyPermutation(Set<Output> outputSet, List<Integer> permutation) {

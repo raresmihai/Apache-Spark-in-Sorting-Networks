@@ -4,8 +4,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.api.java.*;
-import solver.CarthesianAggregatorSolver;
+import solver.CartesianAggregatorSolver;
 import solver.ListReducerSolver;
+import solver.MinimumOutputsSolver;
 import solver.Solver;
 import java.io.*;
 
@@ -23,7 +24,12 @@ import java.io.*;
  *
  *  7 Wires and 16 Comparators : 53 minutes <-- List Reducer
  *  (6,7) (4,5) (2,3) (4,6) (5,7) (1,7) (3,7) (1,2) (2,3) (5,6) (2,5) (3,6) (3,5) (1,4) (3,4) (2,3)  | 0001111 0111111 1111111 0011111 0000111 0000000 0000001 0000011
- *   1-3-7-19-51-138-305
+ *  (6,7) (5,7) (3,4) (1,2) (2,4) (1,3) (4,7) (2,5) (4,5) (3,6) (5,6) (4,5) (2,3) (1,3) (3,4) (1,2)  | 0001111 0111111 1111111 0011111 0000111 0000000 0000001 0000011
+ *   optimal size: 1-3-7-19-51-141-325-564-678-510-280-106-33-11-6-1
+ *   this        : 1-3-7-19-49-138-302-502-603-439-246- 99-33-11-6-1
+ *
+ *   8 Wires and 19 Comparators
+ *   (1,2) (3,4) (5,6) (7,8) (1,3) (2,4) (2,3) (5,7) (6,8) (6,7) (1,5) (2,6) (3,7) (4,8) (4,6) (3,5) (4,5) (6,7) (2,3)  | 00011111 01111111 11111111 00111111 00001111 00000001 00000000 00000011 00000111
  */
 public class Main implements Serializable{
     final static Logger log = LogManager.getRootLogger();
@@ -32,8 +38,9 @@ public class Main implements Serializable{
         log.setLevel(Level.WARN);
         SparkConfSetter sparkConfSetter = new SparkConfSetter();
         JavaSparkContext sc = sparkConfSetter.getSparkContext();
-        //Solver solver = new CarthesianAggregatorSolver();
-        Solver solver = new ListReducerSolver();
+        //Solver solver = new CartesianAggregatorSolver();
+        //Solver solver = new ListReducerSolver();
+        Solver solver = new MinimumOutputsSolver();
         solver.solve(sc);
     }
 }

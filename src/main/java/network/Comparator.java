@@ -4,6 +4,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A comparator is composed of two indices, i and j, indicating the two wires that the comparator connects
+ * 2 comparators are equal if they have the same two indices, i and j
+ *
+ * Example comparator: (2,3)
+ *  - connects the wires 2 and 3 and if the input value on wire 2 is bigger than the input value on wire 3, the values will be swapped.
+ */
 public class Comparator implements Serializable{
     private int i,j;
 

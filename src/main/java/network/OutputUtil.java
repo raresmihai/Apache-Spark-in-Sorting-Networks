@@ -5,13 +5,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Rares on 07.03.2017.
+ * Utility class
  */
 public class OutputUtil implements Serializable{
-    public static boolean isRedundant(Network network, Comparator c) {
+    /**
+     *
+     * @param outputSet The current outputSet that will be checked for redundancy with the new comparator.
+     * @param c The new comparator that is being added to the current network with the outputSet.
+     * @return true if there is no pair of bits in the outputSet on c.wire0 and c.wire1 such that bit on wire0 > bit on wire1.
+     *         false if there exists a pair of bits in the outputSet that will be swapped after adding the new comparator c.
+     *
+     * Example:
+     * For the outputSet |0000,0001,0010,0011,0111,1111|
+     * comparator (3,4) is not redundant because 0010 will be transformed into 0001
+     * comparator (2,3) is redundant because there is no output with 'bit 2 == 1' and 'bit 3 == 0'
+     */
+    public static boolean isRedundant(Set<Output> outputSet, Comparator c) {
         int wire0 = c.getI();
         int wire1 = c.getJ();
-        Set<Output> outputSet = network.getOutputSet();
         if(outputSet.size() == 0) {
             return false;
         }

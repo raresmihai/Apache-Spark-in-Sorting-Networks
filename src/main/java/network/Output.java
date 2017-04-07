@@ -5,7 +5,8 @@ import java.util.BitSet;
 import java.util.Objects;
 
 /**
- * Created by Rares on 07.03.2017.
+ * An output is a value from 0 to 2^numberOfWires - 1 in binary represented by a BitSet
+ * Example : 10 -> 0101
  */
 public class Output implements Serializable {
 
@@ -41,6 +42,13 @@ public class Output implements Serializable {
         values.flip(index);
     }
 
+    /**
+     * @param i first wire
+     * @param j second wire
+     * Method used in the Network constructor when the outputSet is updated after a new comparator was added
+     * Swaps the bits on wire i and j
+     * @see network.Network#Network(Network, Comparator)
+     */
     void swap(int i, int j) {
         flip(i);
         flip(j);

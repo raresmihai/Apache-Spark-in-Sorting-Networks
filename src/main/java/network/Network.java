@@ -7,7 +7,15 @@ import org.apache.log4j.Logger;
 import java.io.Serializable;
 import java.util.*;
 
-
+/**
+ * A network is composed of a list of comparators and a set of outputs.
+ * 2 networks are equal if they have the same list of comparators(in the exact order)
+ * and the same set of outputs.
+ *
+ * Example network (which in this case is also a sorting network) with 4 wires and 5 comparators
+ * comparators: (1,2) (3,4) (1,3) (2,4) (2,3)
+ * outputSet: 0000 0001 0011 0111 1111
+ */
 public class Network implements Serializable {
     private List<Comparator> comparators;
     private Set<Output> outputSet;
@@ -23,6 +31,14 @@ public class Network implements Serializable {
         this.outputSet = OutputUtil.generate(comparator);
     }
 
+
+    /**     *
+     * @param network The network to extend
+     * @param c The comparator to be added to the network
+     * This constructor is used in the FlatMapGenerator.
+     * Extends the network by first, creating a copy of the network and then adding the comparator c to the network.
+     * After the new comparator c is added, the output set is updated.
+     */
     public Network(Network network, Comparator c) {
         Logger log = LogManager.getRootLogger();
         log.setLevel(Level.WARN);

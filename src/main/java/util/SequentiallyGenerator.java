@@ -27,7 +27,7 @@ public class SequentiallyGenerator {
             List<Network> newNetworks = new ArrayList<>();
 
             for(Comparator c : comparators) {
-                if(!OutputUtil.isRedundant(network,c)) {
+                if(!OutputUtil.isRedundant(network.getOutputSet(),c)) {
                     Network newNetwork = new Network(network,c);
                     newNetworks.add(newNetwork);
                 }

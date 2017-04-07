@@ -26,7 +26,7 @@ public class FlatMapGenerator implements FlatMapFunction<Network,Network>, Seria
             log.warn(network);
         }
         for(Comparator c : comparators) {
-            if(!OutputUtil.isRedundant(network,c)) {
+            if(!OutputUtil.isRedundant(network.getOutputSet(),c)) {
                 Network newNetwork = new Network(network,c);
                 newNetworks.add(newNetwork);
             }

@@ -14,6 +14,7 @@ efficient_subsumption\PermIterator.class
 efficient_subsumption\Subsumption.class
 spark_functions\KeepOneNetworkReducer.class
 util\PermutationGenerator.class
+spark_functions\IntegerComparator.class
 spark_functions\PruningFilter.class
 network\NetworkComparator.class
 spark_functions\FlatMapGenerator.class

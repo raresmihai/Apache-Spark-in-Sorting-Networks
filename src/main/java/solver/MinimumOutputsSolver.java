@@ -1,6 +1,7 @@
 package solver;
 
 import network.Network;
+import network.NetworkComparator;
 import network.NetworkProperties;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -9,6 +10,7 @@ import scala.Tuple2;
 import spark_functions.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +25,9 @@ public class MinimumOutputsSolver implements Solver, Serializable {
 //        for(int i=0;i<NUMBER_OF_SEQ_GENERATE_STEPS;i++) {
 //            data = sequentiallyGenerator.addComparatorsToNetworks(data);
 //        }
-        int minsPercentages[] = {1,1,1,1,2,5,3,8,4,1,1,6,3,3,6,3,2,3,1,2,2,2,2,2,2,2};
+        //int minsPercentages[] = {1,1,1,1,2,5,3,8,4,1,1,6,3,3,6,3,2,3,1,2,2,2,2,2,2,2};
+        int minsPercentages[] =   {2,2,2,2,2,5,3,8,4,2,2,6,3,3,6,3,2,3,2,2,2,2,2,2,2,2};
+
 //        Network n = new Network(new Comparator(1,2)); // 1/1
 //        n = new Network(n,new Comparator(3,4));// 1/2
 //        n = new Network(n,new Comparator(5,6));// 1/3
@@ -104,40 +108,36 @@ public class MinimumOutputsSolver implements Solver, Serializable {
         for(int k = NUMBER_OF_SEQ_GENERATE_STEPS; k< NUMBER_OF_COMPARATORS; k++) {
             System.out.println("Step " + k);
             currentN = currentN.flatMap(new FlatMapGenerator());
-            //System.out.println("After flatmap: " + currentN.count());
-            JavaPairRDD<Integer,Network> networksWithOutputSize = currentN.mapToPair(new OutputSizeMap());
-            //networksWithOutputSize.collect().forEach(System.out::println);
-            JavaRDD<Integer> minsRDD = networksWithOutputSize.keys();
-            minsRDD = minsRDD.distinct();//in loc de distinct, se poate incerca un reduceByKey care sa nu faca nimic la valori, doar sa obtina valori distincte pt chei
-            minsRDD = minsRDD.sortBy(new SortingFunction(),true, 32);
-            //System.out.println("Total mins: " + minsRDD.count());
-            //networksWithOutputSize = networksWithOutputSize.sortByKey(true);
-            //int percentage = maximum((int)(1 * minsRDD.count() / 100),2);
-            //System.out.println(percentage);
-            List<Integer> mins = minsRDD.take(minsPercentages[k]);
+            System.out.println("After generate: " + currentN.count());
 
-            System.out.println(mins);
-            //Tuple2<Integer,Network> minimum = networksWithOutputSize.min(new NetworkComparator());
-            //Integer minOutputSize = minimum._1();
-            //System.out.println("Minimum: " + minOutputSize);
+            JavaPairRDD<Integer,Network> networksWithOutputSize = currentN.mapToPair(new OutputSizeMap());
+            JavaRDD<Integer> minsRDD = networksWithOutputSize.keys();
+            List<Integer> mins = new ArrayList<>();
+            int numberOfMins = minsPercentages[k];
+            for(int i=0;i<numberOfMins;i++) {
+                Integer min = minsRDD.min(new IntegerComparator());
+                mins.add(min);
+                minsRDD = minsRDD.filter(integer -> !integer.equals(min));
+                if(minsRDD.isEmpty()) {
+                    break;
+                }
+            }
+            System.out.println("Mins selected:" + mins.size());
+
             networksWithOutputSize = networksWithOutputSize.filter(tuple -> inMins(mins,tuple._1()));
             currentN = networksWithOutputSize.values();
-            //System.out.println("Dupa filtrare mins: " + currentN.count());
 
-
+            System.out.println("Before pruning: " + currentN.count());
             JavaPairRDD<String,List<Network>> keyPairs = currentN.mapToPair(new MapToKeyNetworkPair());
-            //keyPairs.collect().forEach(System.out::println);
-            System.out.println("Before same: " + keyPairs.count());
             keyPairs = keyPairs.reduceByKey(new SameKeyPruning());
-            JavaRDD test = keyPairs.values().flatMap(l -> l.iterator());
-            System.out.println("After same: " + test.count());
 
-            keyPairs = keyPairs.values().mapToPair(l -> Tuple2.apply("k",l));
-            JavaPairRDD<String, List<Network>> reducedNetworks = keyPairs.reduceByKey(new DifferentKeyPruning());
-            JavaRDD<List<Network>> values = reducedNetworks.values();
-            currentN = values.flatMap(networks -> networks.iterator());
-            System.out.println("Dupa different: " + currentN.count());
 
+            JavaRDD<List<Network>> networksAfterPruning = keyPairs.values();
+            List<Network> reducedNetworks = networksAfterPruning.reduce(new DifferentKeyPruning());
+            currentN = sc.parallelize(reducedNetworks);
+
+            System.out.println("After pruning: " + currentN.count());
+            System.out.println("------------------------------------------\n");
             //initial, fara different
 //            JavaRDD<List<Network>> networksAfterPruning = keyPairs.values();
 //            currentN = networksAfterPruning.flatMap(l -> l.iterator());

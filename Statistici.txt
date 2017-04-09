@@ -1,0 +1,179 @@
+Step 0
+After generate: 36
+Mins selected:1
+Before pruning: 36
+After pruning: 1
+------------------------------------------
+
+Step 1
+After generate: 35
+Mins selected:2
+Before pruning: 35
+After pruning: 3
+------------------------------------------
+
+Step 2
+After generate: 102
+Mins selected:2
+Before pruning: 60
+After pruning: 3
+------------------------------------------
+
+Step 3
+After generate: 99
+Mins selected:2
+Before pruning: 33
+After pruning: 3
+------------------------------------------
+
+Step 4
+After generate: 96
+Mins selected:2
+Before pruning: 44
+After pruning: 6
+------------------------------------------
+
+Step 5
+After generate: 186
+Mins selected:5
+Before pruning: 156
+After pruning: 36
+------------------------------------------
+
+Step 6
+After generate: 1079
+Mins selected:3
+Before pruning: 110
+After pruning: 20
+------------------------------------------
+
+Step 7
+After generate: 568
+Mins selected:8
+Before pruning: 245
+After pruning: 90
+------------------------------------------
+
+Step 8
+After generate: 2439
+Mins selected:4
+Before pruning: 102
+After pruning: 23
+------------------------------------------
+
+Step 9
+After generate: 593
+Mins selected:2
+Before pruning: 33
+After pruning: 12
+------------------------------------------
+
+Step 10
+After generate: 288
+Mins selected:2
+Before pruning: 22
+After pruning: 8
+------------------------------------------
+
+Step 11
+After generate: 184
+Mins selected:6
+Before pruning: 184
+After pruning: 143
+------------------------------------------
+
+Step 12
+After generate: 3144
+Mins selected:3
+Before pruning: 365
+After pruning: 118
+------------------------------------------
+
+Step 13
+After generate: 2463
+Mins selected:3
+Before pruning: 364
+After pruning: 158
+------------------------------------------
+
+Step 14
+After generate: 3134
+Mins selected:5
+Before pruning: 3134
+After pruning: 1554
+12,8h jobul + 12h .. ?
+------------------------------------------
+
+Step 15
+After generate: 28706
+Mins selected:3
+Before pruning: 206
+After pruning: 98
+------------------------------------------
+
+Step 16
+After generate: 1524
+Mins selected:2
+Before pruning: 32
+After pruning: 18
+------------------------------------------
+
+Step 17
+After generate: 202
+Mins selected:3
+Before pruning: 202
+After pruning: 133
+------------------------------------------
+
+Step 18
+After generate: 1350
+Mins selected:2
+Before pruning: 472
+After pruning: 148
+------------------------------------------
+
+Step 19
+After generate: 1283
+Mins selected:2
+Before pruning: 318
+After pruning: 84
+------------------------------------------
+
+Step 20
+After generate: 578
+Mins selected:2
+Before pruning: 578
+After pruning: 132
+------------------------------------------
+
+Step 21
+After generate: 748
+Mins selected:2
+Before pruning: 274
+After pruning: 55
+------------------------------------------
+
+Step 22
+After generate: 218
+Mins selected:2
+Before pruning: 218
+After pruning: 30
+------------------------------------------
+
+Step 23
+After generate: 84
+Mins selected:2
+Before pruning: 84
+After pruning: 6
+------------------------------------------
+
+Step 24
+After generate: 6
+Mins selected:1
+Before pruning: 6
+After pruning: 1
+------------------------------------------
+
+Filter : 1
+(8,9) (6,7) (4,5) (2,3) (6,8) (7,9) (7,8) (3,5) (2,4) (3,4) (1,6) (5,9) (5,6) (4,8) (3,7) (5,7) (1,2) (6,8) (2,5) (6,7) (4,5) (5,6) (8,9) (2,3) (3,4)  | 000111111 011111111 111111111 001111111 000011111 000000011 000000001 000000000 000000111 000001111 
+

@@ -8,20 +8,20 @@ import org.apache.spark.api.java.JavaSparkContext;
  */
 class SparkConfSetter {
     private SparkConf conf;
-    private static final String APP_NAME = "Sorting Networks with 5 Channels and 9 Comparators";
-    private static final String MASTER = "spark://192.168.43.64:7077";
+    private static final String APP_NAME = "Sorting Networks with 9 Channels and 25 Comparators";
+    private static final String MASTER = "local[4]";
     private static final String JAR_PATH = "target/spark_sorting_networks-1.0.jar";
     private static final String SPARK_DRIVER_HOST = "spark.driver.host";
     private static final String SPARK_DEFAULT_PARALLELISM = "spark.default.parallelism";
     private static final String MASTER_IP = "192.168.43.64";
-    private static final String NUMBER_OF_SPLITS = "12";
+    private static final String NUMBER_OF_SPLITS = "8";
 
     SparkConfSetter() {
         conf = new SparkConf();
         conf.setAppName(APP_NAME);
         conf.setMaster(MASTER);
         conf.setJars(new String[]{JAR_PATH});
-        conf.set(SPARK_DRIVER_HOST,MASTER_IP);
+        //conf.set(SPARK_DRIVER_HOST,MASTER_IP);
         conf.set(SPARK_DEFAULT_PARALLELISM,NUMBER_OF_SPLITS);
         //conf.set("spark.shuffle.service.enabled", "false");
         //conf.set("spark.dynamicAllocation.enabled", "false");

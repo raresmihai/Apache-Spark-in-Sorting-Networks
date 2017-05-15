@@ -33,5 +33,4 @@ public class PruningMap implements PairFunction<Tuple2<Network,Network>, Network
         Subsumption subsumptionTest = new Subsumption();
         return new Tuple2<>(network1,!subsumptionTest.subsumes(network2,network1));
     }
-
 }

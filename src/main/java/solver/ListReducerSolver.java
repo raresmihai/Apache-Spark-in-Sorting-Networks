@@ -2,11 +2,8 @@ package solver;
 
 import network.Network;
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaPairRDD$;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import scala.Tuple2;
-import solver.Solver;
 import spark_functions.*;
 
 import java.io.Serializable;
@@ -57,7 +54,7 @@ public class ListReducerSolver implements Solver,Serializable {
      *         This is why, it may be a good idea to use reduceByKey which returns a Distributed data set. <br />
      *         To use reduceByKey, all that needs to be done is to transform the RDD of networks into a PairRDD (Key,List<Network>). <br />
      *         Each list of networks will have the same key "k".
-     *         See: {@link spark_functions.DifferentKeyPruning DifferentKeyPruning} , {@link util.Subsumption Subsumption}
+     *         See: {@link ListPruning ListPruning} , {@link util.Subsumption Subsumption}
      *     </li>
      * </ol>
      *
@@ -73,18 +70,18 @@ public class ListReducerSolver implements Solver,Serializable {
             System.out.println("FULL: " + currentN.count());
             JavaPairRDD<String,List<Network>> keyPairs = currentN.mapToPair(new MapToKeyNetworkPair());
             //keyPairs.collect().forEach(System.out::println);
-            keyPairs = keyPairs.reduceByKey(new SameKeyPruning());
+            keyPairs = keyPairs.reduceByKey(new ListPruning());
             JavaRDD<List<Network>> networksAfterPruning = keyPairs.values();
             //System.out.println("After same key pruning");
             //networksAfterPruning.collect().forEach(System.out::println);
-            List<Network> reducedNetworks = networksAfterPruning.reduce(new DifferentKeyPruning());
+            List<Network> reducedNetworks = networksAfterPruning.reduce(new ListPruning());
             //System.out.println("After different key reduce");
-            System.out.println(reducedNetworks.size());
+            System.out.println("Reduced:" + reducedNetworks.size());
             currentN = sc.parallelize(reducedNetworks);
 
             //Pair Reduce By Key in order to keep the networks distributed
 //            keyPairs = networksAfterPruning.mapToPair(l -> Tuple2.apply("k",l));
-//            JavaPairRDD<String, List<Network>> reducedNetworks = keyPairs.reduceByKey(new DifferentKeyPruning());
+//            JavaPairRDD<String, List<Network>> reducedNetworks = keyPairs.reduceByKey(new ListPruning());
 //            JavaRDD<List<Network>> values = reducedNetworks.values();
 //            currentN = values.flatMap(networks -> networks.iterator());
         }

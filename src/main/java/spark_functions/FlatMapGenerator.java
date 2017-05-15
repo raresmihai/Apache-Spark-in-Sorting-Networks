@@ -20,11 +20,6 @@ public class FlatMapGenerator implements FlatMapFunction<Network,Network>, Seria
     public Iterator<Network> call(Network network) throws Exception {
         List<Comparator> comparators = getAllComparators(NetworkProperties.NUMBER_OF_WIRES);
         List<Network> newNetworks = new ArrayList<>();
-        Logger log = LogManager.getRootLogger();
-        log.setLevel(Level.WARN);
-        if(comparators.get(0) == null) {
-            log.warn(network);
-        }
         for(Comparator c : comparators) {
             if(!OutputUtil.isRedundant(network.getOutputSet(),c)) {
                 Network newNetwork = new Network(network,c);

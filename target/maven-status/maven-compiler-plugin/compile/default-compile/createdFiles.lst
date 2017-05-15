@@ -6,7 +6,6 @@ spark_functions\SameKeyPruning.class
 efficient_subsumption\Sequence.class
 spark_functions\MapToKeyNetworkPair.class
 spark_functions\PruningMap.class
-spark_functions\DifferentKeyPruning.class
 util\SequentiallyGenerator.class
 efficient_subsumption\Permutations.class
 network\NetworkProperties.class
@@ -18,6 +17,7 @@ spark_functions\IntegerComparator.class
 spark_functions\PruningFilter.class
 network\NetworkComparator.class
 spark_functions\FlatMapGenerator.class
+spark_functions\ListPruning.class
 util\Subsumption.class
 efficient_subsumption\Tools.class
 efficient_subsumption\OutputSet.class

@@ -39,13 +39,16 @@ import java.io.*;
 public class Main implements Serializable{
     final static Logger log = LogManager.getRootLogger();
 
+
     public static void main(String[] args){
+
         log.setLevel(Level.WARN);
         SparkConfSetter sparkConfSetter = new SparkConfSetter();
         JavaSparkContext sc = sparkConfSetter.getSparkContext();
         //Solver solver = new CartesianAggregatorSolver();
-        //Solver solver = new ListReducerSolver();
-        Solver solver = new MinimumOutputsSolver();
+        Solver solver = new ListReducerSolver();
+        //Solver solver = new MinimumOutputsSolver();
         solver.solve(sc);
     }
+
 }

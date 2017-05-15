@@ -91,20 +91,21 @@ public class CartesianAggregatorSolver implements Solver, Serializable {
 
         JavaRDD<Network> currentN = sc.parallelize(data);
         for(int k = NUMBER_OF_SEQ_GENERATE_STEPS; k< NUMBER_OF_COMPARATORS; k++) {
-            //System.out.println("Step " + k);
+            System.out.println("Step " + k);
             currentN = currentN.flatMap(new FlatMapGenerator());
-//            JavaPairRDD<String, List<Network>> keyPairs = currentN.mapToPair(new MapToKeyNetworkPair());
-//            //keyPairs.collect().forEach(System.out::println);
-//            keyPairs = keyPairs.reduceByKey(new SameKeyPruning());
-//            JavaRDD<List<Network>> networksAfterPruning = keyPairs.values();
-//            currentN = networksAfterPruning.flatMap(networks -> networks.iterator());
-//            JavaPairRDD<Network,Network> allPairs = currentN.cartesian(currentN);
-//            //System.out.println("Cartesian: " + allPairs.count());
-//            JavaPairRDD<Network,Boolean> prunedNetworksWithFlags = allPairs.mapToPair(new PruningMap());
-//            JavaPairRDD<Network,Boolean> prunedNetworksWithAggregatedFlags = prunedNetworksWithFlags.reduceByKey((a,b) -> a & b);
-//            //System.out.println("Aggregated: " + prunedNetworksWithAggregatedFlags.count() + ": " + prunedNetworksWithAggregatedFlags.take(10));
-//            JavaPairRDD<Network,Boolean> prunedNetworks = prunedNetworksWithAggregatedFlags.filter(tuple -> tuple._2());
-//            currentN = prunedNetworks.keys();
+            JavaPairRDD<String, List<Network>> keyPairs = currentN.mapToPair(new MapToKeyNetworkPair());
+            //keyPairs.collect().forEach(System.out::println);
+            keyPairs = keyPairs.reduceByKey(new SameKeyPruning());
+            JavaRDD<List<Network>> networksAfterPruning = keyPairs.values();
+            currentN = networksAfterPruning.flatMap(networks -> networks.iterator());
+            JavaPairRDD<Network,Network> allPairs = currentN.cartesian(currentN);
+            System.out.println("Cartesian: " + allPairs.count());
+            JavaPairRDD<Network,Boolean> prunedNetworksWithFlags = allPairs.mapToPair(new PruningMap());
+            JavaPairRDD<Network,Boolean> prunedNetworksWithAggregatedFlags = prunedNetworksWithFlags.reduceByKey((a,b) -> a & b);
+            System.out.println("Dupa reduce: " + prunedNetworksWithAggregatedFlags.count());
+            //System.out.println("Aggregated: " + prunedNetworksWithAggregatedFlags.count() + ": " + prunedNetworksWithAggregatedFlags.take(10));
+            JavaPairRDD<Network,Boolean> prunedNetworks = prunedNetworksWithAggregatedFlags.filter(tuple -> tuple._2());
+            currentN = prunedNetworks.keys();
         }
 
         System.out.println(currentN.count());

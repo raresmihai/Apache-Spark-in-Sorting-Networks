@@ -29,6 +29,9 @@ public class SameKeyPruning implements Function2<List<Network>,List<Network>,Lis
      */
     @Override
     public List<Network> call(List<Network> networks1, List<Network> networks2)  {
+        System.out.println("Networks1 size: " + networks1.size());
+        System.out.println("Networks2 size: " + networks2.size());
+        System.out.println("---------------------------");
         List<Network> allNetworks;
         Network currentNetwork;
         if(networks1.size() > networks2.size()) {
